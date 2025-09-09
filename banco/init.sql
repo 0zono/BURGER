@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS orders (
+    id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(50) NOT NULL,
+    item VARCHAR(100) NOT NULL,
+    status VARCHAR(20) NOT NULL
+);
