@@ -1,0 +1,10 @@
+# ignores do back
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+
+# VSCode
+.vscode/
