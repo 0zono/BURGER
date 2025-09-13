@@ -1,0 +1,17 @@
+FROM node:18
+
+# diretório de trabalho
+WORKDIR /app
+
+# instalar dependências
+COPY package*.json ./
+RUN npm install
+
+# copiar código
+COPY . .
+
+# expor porta mas mudar dependendo do PC do lab
+EXPOSE 3000
+
+# rodar em modo dev (hot reload)
+CMD ["npm", "start"]
