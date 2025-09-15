@@ -1,0 +1,99 @@
+/* Container principal que preenche a tela e centraliza tudo */
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #111827; /* Um cinza bem escuro */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+  }
+  
+  /* Estilos para o título e subtítulo */
+  .title {
+    font-size: 3.5rem; /* 56px */
+    font-weight: 800; /* extra-bold */
+    margin-bottom: 0.75rem; /* 12px */
+  }
+  
+  .title span {
+    color: #facc15; /* Amarelo */
+  }
+  
+  .subtitle {
+    font-size: 1.25rem; /* 20px */
+    color: #d1d5db; /* Um cinza claro */
+    margin-bottom: 4rem; /* 64px, um espaçamento grande */
+  }
+  
+  /* Container que segura os dois botões */
+  .optionsContainer {
+    display: flex;
+    gap: 2.5rem; /* 40px de espaço entre os botões */
+  }
+  
+  /* Estilo base para os botões (cards) */
+  .optionCard {
+    width: 18rem; /* 288px */
+    height: 20rem; /* 320px */
+    background-color: #1f2937; /* Cinza um pouco mais claro */
+    border: 2px solid #374151;
+    border-radius: 16px;
+    cursor: pointer;
+  
+    /* Centraliza o ícone e o texto dentro do card */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem; /* 24px */
+  
+    /* Transição suave para o efeito hover */
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Efeito ao passar o mouse */
+  .optionCard:hover {
+    transform: translateY(-12px); /* Levanta o card */
+  }
+  
+  /* Título dentro do card */
+  .cardTitle {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 700; /* bold */
+  }
+  
+  /* Modificadores de cor para cada card */
+  
+  .indigo .icon { color: #818cf8; }
+  .indigo:hover {
+    border-color: #818cf8;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+  }
+  
+  .green .icon { color: #4ade80; }
+  .green:hover {
+    border-color: #4ade80;
+    box-shadow: 0 10px 25px -5px rgba(52, 211, 153, 0.3);
+  }
+  
+  /* Responsividade para telas menores (celulares) */
+  @media (max-width: 768px) {
+    .optionsContainer {
+      flex-direction: column; /* Botões um em cima do outro */
+      gap: 2rem; /* 32px */
+    }
+  
+    .title {
+      font-size: 2.5rem; /* 40px */
+    }
+  
+    .subtitle {
+      font-size: 1.1rem; /* 18px */
+      margin-bottom: 3rem; /* 48px */
+    }
+  }

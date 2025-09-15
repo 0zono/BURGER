@@ -1,63 +1,87 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Pedido.module.css";
+// Ícone para o botão de remover
+import { FaTrash } from "react-icons/fa";
 
 export default function Pedido({ pedido, setPedido }) {
   const navigate = useNavigate();
 
+  // --- LÓGICA APRIMORADA ---
   const alterarQuantidade = (index, delta) => {
     const novosItens = [...pedido.itens];
-    novosItens[index].quantidade += delta;
-    if (novosItens[index].quantidade < 1) novosItens[index].quantidade = 1;
+    const itemAtual = novosItens[index];
+    
+    // Se a quantidade for 1 e o usuário clicar em "-", remove o item
+    if (itemAtual.quantidade === 1 && delta === -1) {
+      removerItem(index);
+      return;
+    }
+    
+    itemAtual.quantidade += delta;
+    setPedido({ ...pedido, itens: novosItens });
+  };
+  
+  // Nova função para remover um item
+  const removerItem = (indexParaRemover) => {
+    const novosItens = pedido.itens.filter((_, index) => index !== indexParaRemover);
     setPedido({ ...pedido, itens: novosItens });
   };
 
-  // total do pedido
   const total = pedido.itens.reduce((acc, i) => {
-    // se for combo, preco já vem do combo
     return acc + parseFloat(i.preco) * i.quantidade;
   }, 0);
 
+  const totalFormatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
   return (
-    <div className="p-8">
-      <h2 className="text-3xl mb-4">Seu Pedido</h2>
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h2 className={styles.title}>Seu Pedido</h2>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>
+          &larr; Voltar ao Cardápio
+        </button>
+      </header>
 
-      {pedido.itens.length === 0 && <p>Seu pedido está vazio.</p>}
+      {pedido.itens.length === 0 ? (
+        <p className={styles.emptyCartMessage}>Seu pedido está vazio.</p>
+      ) : (
+        <div className={styles.contentWrapper}>
+          <div className={styles.itemsList}>
+            {pedido.itens.map((item, idx) => {
+              const itemTotal = (parseFloat(item.preco) * item.quantidade).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+              return (
+                <div key={item.id_produto || item.id_combo || idx} className={styles.itemRow}>
+                  <span className={styles.itemName}>{item.nome}</span>
+                  <div className={styles.quantityControl}>
+                    <button className={styles.quantityButton} onClick={() => alterarQuantidade(idx, -1)}>-</button>
+                    <span className={styles.quantityDisplay}>{item.quantidade}</span>
+                    <button className={styles.quantityButton} onClick={() => alterarQuantidade(idx, 1)}>+</button>
+                  </div>
+                  <span className={styles.itemPrice}>{itemTotal}</span>
+                  <button className={styles.removeButton} onClick={() => removerItem(idx)}>
+                    <FaTrash />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
 
-      {pedido.itens.map((i, idx) => (
-        <div key={i.id || i.id_combo || idx} className="flex justify-between mb-2 items-center">
-          {/* Nome do item */}
-          <span>{i.nome}</span>
-
-          {/* Controle de quantidade */}
-          <span>
+          <div className={styles.summary}>
+            <h3 className={styles.summaryTitle}>Resumo</h3>
+            <div className={styles.summaryTotal}>
+              <span>Total</span>
+              <span>{totalFormatado}</span>
+            </div>
             <button
-              className="bg-gray-300 px-2 rounded mr-2"
-              onClick={() => alterarQuantidade(idx, -1)}
+              className={styles.checkoutButton}
+              onClick={() => navigate("/finalizar")}
             >
-              -
+              Finalizar Pedido
             </button>
-            {i.quantidade}
-            <button
-              className="bg-gray-300 px-2 rounded ml-2"
-              onClick={() => alterarQuantidade(idx, 1)}
-            >
-              +
-            </button>
-          </span>
-
-          {/* Preço do item * quantidade */}
-          <span>R$ {(parseFloat(i.preco) * i.quantidade).toFixed(2)}</span>
+          </div>
         </div>
-      ))}
-
-      <h3 className="mt-4 text-xl font-bold">Total: R$ {total.toFixed(2)}</h3>
-
-      <button
-        className="mt-6 bg-blue-600 text-white p-4 rounded"
-        onClick={() => navigate("/finalizar")}
-      >
-        Finalizar Pedido
-      </button>
+      )}
     </div>
   );
 }

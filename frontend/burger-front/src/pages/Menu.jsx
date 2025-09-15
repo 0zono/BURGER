@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ComboCard from "../components/ComboCard";
-import ProdutoCard from "../components/ProdutoCard";
+import styles from './Menu.module.css';
 
 export default function Menu({ pedido, setPedido }) {
   const { tipo } = useParams();
@@ -46,35 +45,66 @@ export default function Menu({ pedido, setPedido }) {
   const valorTotal = pedido.itens.reduce((acc, i) => acc + i.quantidade * i.preco, 0);
 
   return (
-    <div className="p-8">
-      {/* Barra fixa do carrinho */}
-      <div className="fixed top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center z-50">
-        <h1 className="text-xl font-bold">
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1 className={styles.headerTitle}>
           Menu - {tipo === "comer-aqui" ? "Comer Aqui" : "Viagem"}
         </h1>
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+          className={styles.cartButton}
           onClick={() => navigate("/pedido")}
         >
           Carrinho ({quantidadeTotal}) - R$ {valorTotal.toFixed(2)}
         </button>
-      </div>
+      </header>
 
-      <div className="mt-20">
-        <h3 className="text-2xl mt-4 mb-2">Produtos</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <main className={styles.mainContent}>
+        <h3 className={styles.sectionTitle}>Produtos</h3>
+        <div className={styles.gridContainer}>
           {produtos.map((p) => (
-            <ProdutoCard key={p.id} produto={p} adicionar={() => adicionarItem(p, "produto")} />
+            <div key={p.id} className={styles.card}>
+              <div className={styles.imagePlaceholder} />
+              <div className={styles.cardContent}>
+                <h4 className={styles.cardTitle}>{p.nome}</h4>
+                <p className={styles.cardDescription}>
+                  {p.descricao || 'Delicioso produto feito com os melhores ingredientes da casa.'}
+                </p>
+              </div>
+              <div className={styles.cardFooter}>
+                <span className={styles.cardPrice}>
+                  {parseFloat(p.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
+                <button className={styles.addButton} onClick={() => adicionarItem(p, "produto")}>
+                  Adicionar
+                </button>
+              </div>
+            </div>
           ))}
         </div>
 
-        <h3 className="text-2xl mt-4 mb-2">Combos</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <h3 className={styles.sectionTitle}>Combos</h3>
+        <div className={styles.gridContainer}>
           {combos.map((c) => (
-            <ComboCard key={c.id_combo} combo={c} adicionar={() => adicionarItem(c, "combo")} />
+            <div key={c.id_combo} className={styles.card}>
+              <div className={styles.imagePlaceholder} />
+              <div className={styles.cardContent}>
+                <h4 className={styles.cardTitle}>{c.nome}</h4>
+                <p className={styles.cardDescription}>
+                  {c.descricao || 'O combo perfeito para matar sua fome com economia.'}
+                </p>
+              </div>
+              <div className={styles.cardFooter}>
+                <span className={styles.cardPrice}>
+                  {parseFloat(c.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
+                <button className={styles.addButton} onClick={() => adicionarItem(c, "combo")}>
+                  Adicionar
+                </button>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

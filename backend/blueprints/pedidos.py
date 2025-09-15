@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from models import db, Cliente, Pedido, ItemPedido, Produto, Combo
 from datetime import datetime
-
+# NOVO IMPORT para otimização de performance
+from sqlalchemy.orm import joinedload, selectinload
 pedidos_bp = Blueprint("pedidos", __name__, url_prefix="/pedidos")
 
 @pedidos_bp.route("/", methods=["POST"])
@@ -61,15 +62,53 @@ def criar_pedido():
 # Listar pedidos
 @pedidos_bp.route("/", methods=["GET"])
 def listar_pedidos():
-    pedidos = Pedido.query.all()
+    # --- OTIMIZAÇÃO DE PERFORMANCE (Eager Loading) ---
+    # Isso diz ao SQLAlchemy para já buscar os dados relacionados (cliente, itens, etc.)
+    # em poucas queries, evitando o problema de N+1 requisições ao banco.
+    query = Pedido.query.options(
+        joinedload(Pedido.cliente), # Carrega o cliente junto com o pedido
+        selectinload(Pedido.itens).joinedload(ItemPedido.produto), # Carrega os itens e seus produtos
+        selectinload(Pedido.itens).joinedload(ItemPedido.combo)  # Carrega os itens e seus combos
+    )
+
+    # --- FILTRO POR STATUS (Opcional, mas recomendado) ---
+    # Permite que o frontend peça, por exemplo, /pedidos/?status=pendente
+    status_filtro = request.args.get('status')
+    if status_filtro:
+        query = query.filter(Pedido.status == status_filtro)
+    
+    # Ordena os pedidos do mais novo para o mais antigo
+    pedidos = query.order_by(Pedido.data_hora.desc()).all()
+    
     resultado = []
     for p in pedidos:
+        # Monta a lista de itens para este pedido
+        itens_list = []
+        for item in p.itens: # "p.itens" funciona por causa do 'relationship' no seu model Pedido
+            nome_item = ""
+            if item.produto: # "item.produto" é o relacionamento de ItemPedido -> Produto
+                nome_item = item.produto.nome
+            elif item.combo: # "item.combo" é o relacionamento de ItemPedido -> Combo
+                nome_item = item.combo.nome
+            
+            itens_list.append({
+                "quantidade": item.quantidade,
+                "nome": nome_item
+            })
+
+        # Monta o JSON final para este pedido
         resultado.append({
             "id_pedido": p.id_pedido,
-            "id_cliente": p.id_cliente,
             "data_hora": p.data_hora.isoformat(),
-            "status": p.status
+            "status": p.status,
+            # "p.cliente" funciona por causa do 'relationship' no seu model Pedido
+            "cliente": {
+                "id_cliente": p.id_cliente,
+                "nome": p.cliente.nome 
+            },
+            "itens": itens_list
         })
+        
     return jsonify(resultado)
 
 # Obter pedido específico

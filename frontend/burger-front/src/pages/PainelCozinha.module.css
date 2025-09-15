@@ -1,0 +1,97 @@
+.pageContainer {
+    background-color: #111827; /* bg-gray-900 */
+    color: white;
+    min-height: 100vh;
+    padding: 1.5rem;
+  }
+  
+  .header {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #374151; /* border-gray-700 */
+  }
+  
+  /* Grid que se adapta para mostrar os tickets */
+  .ordersGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .orderTicket {
+    background-color: #1f2937; /* bg-gray-800 */
+    border-radius: 12px;
+    border: 1px solid #374151;
+    width: 350px; /* Largura fixa para cada ticket */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ticketHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px dashed #4b5563; /* bg-gray-600 */
+  }
+  
+  .ticketId {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #facc15; /* yellow-400 */
+  }
+  
+  .ticketTime {
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #374151;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+  }
+  
+  .itemsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Empurra o botão para o final */
+  }
+  
+  .item {
+    font-size: 1.125rem; /* 18px */
+    margin-bottom: 0.5rem;
+    display: flex;
+  }
+  
+  .itemQuantity {
+    font-weight: 700;
+    margin-right: 0.75rem;
+    min-width: 30px;
+  }
+  
+  .finishButton {
+    background-color: #22c55e; /* bg-green-500 */
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  .finishButton:hover {
+    background-color: #16a34a;
+  }
+  
+  .noOrdersMessage, .loadingMessage, .errorMessage {
+    font-size: 1.5rem;
+    color: #9ca3af;
+    text-align: center;
+    padding: 4rem;
+  }

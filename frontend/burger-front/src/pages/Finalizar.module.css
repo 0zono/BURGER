@@ -1,0 +1,153 @@
+.pageContainer {
+    background-color: #111827; /* bg-gray-900 */
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .checkoutCard {
+    background-color: #1f2937; /* bg-gray-800 */
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #9ca3af; /* text-gray-400 */
+  }
+  
+  .textInput {
+    width: 100%;
+    background-color: #374151; /* bg-gray-700 */
+    border: 1px solid #4b5563;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .textInput:focus {
+    outline: none;
+    border-color: #facc15; /* yellow-400 */
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3);
+  }
+  
+  .summaryItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    color: #d1d5db; /* gray-300 */
+  }
+  
+  .summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #374151;
+  }
+  
+  .confirmButton {
+    background-color: #22c55e; /* bg-green-500 */
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 2rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .confirmButton:hover {
+    background-color: #16a34a;
+  }
+  .confirmButton:disabled {
+    background-color: #4b5563;
+    cursor: not-allowed;
+  }
+  
+  .backButton {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .backButton:hover {
+    color: white;
+  }
+  
+  .errorMessage {
+    color: #ef4444; /* red-500 */
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* --- TELA DE SUCESSO --- */
+  .successOverlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .successIcon {
+    color: #22c55e; /* green-500 */
+    margin-bottom: 1.5rem;
+  }
+  
+  .successTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  
+  .successMessage {
+    font-size: 1.25rem;
+    color: #d1d5db;
+    margin-bottom: 2rem;
+  }
+  
+  .newOrderButton {
+    background-color: #facc15; /* yellow-400 */
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .newOrderButton:hover {
+    transform: scale(1.05);
+  }

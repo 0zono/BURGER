@@ -1,0 +1,164 @@
+/* ===================================== */
+/* ==== ESTILOS DA PÁGINA E CARDS  ==== */
+/* ===================================== */
+
+.pageContainer {
+    background-color: #111827; /* bg-gray-900 */
+    color: white;
+    min-height: 100vh;
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+  }
+  
+  .headerTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .cartButton {
+    background-color: #facc15;
+    color: #111827;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .cartButton:hover {
+    transform: scale(1.05);
+  }
+  
+  .mainContent {
+    padding-top: 80px; 
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .sectionTitle {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 4px solid #facc15;
+  }
+  
+  .gridContainer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+  
+  /* --- ESTILOS PARA OS CARDS --- */
+  
+  .card {
+    background-color: #1f2937;
+    border-radius: 16px;
+    border: 1px solid #374151;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .imagePlaceholder {
+    height: 180px;
+    background-color: #4b5563;
+    background-image: url("https://i.imgur.com/Kblh2iP.png");
+    background-size: 40%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .cardContent {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cardDescription {
+    font-size: 1rem;
+    color: #9ca3af;
+    flex-grow: 1;
+    line-height: 1.5;
+  }
+  
+  .cardFooter {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .cardPrice {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #facc15;
+  }
+  
+  .addButton {
+    background-color: #facc15;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .addButton:hover {
+    transform: scale(1.05);
+    background-color: #fde047;
+  }
+  
+  /* --- RESPONSIVIDADE --- */
+  
+  @media (min-width: 768px) {
+    .gridContainer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .gridContainer {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .gridContainer {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
