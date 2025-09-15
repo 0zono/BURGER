@@ -10,7 +10,8 @@ export default defineConfig({
     proxy: {
       '/produtos': 'http://backend:5000',
       '/combos': 'http://backend:5000',
-      '/pedidos': 'http://backend:5000'
+      '/pedidos': 'http://backend:5000',
+      '/clientes': 'http://backend:5000'
     }
     
   }

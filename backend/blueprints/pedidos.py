@@ -1,22 +1,65 @@
-from flask import Blueprint, jsonify, request
-from models import db, Pedido, Cliente, ItemPedido
+from flask import Blueprint, request, jsonify
+from models import db, Cliente, Pedido, ItemPedido, Produto, Combo
+from datetime import datetime
 
 pedidos_bp = Blueprint("pedidos", __name__, url_prefix="/pedidos")
 
-# Criar pedido
-@pedidos_bp.route("", methods=["POST"])
+@pedidos_bp.route("/", methods=["POST"])
 def criar_pedido():
     data = request.get_json()
+
+    # 1️⃣ Obter ou criar cliente
+    id_cliente = data.get("id_cliente")
+    if not id_cliente:
+        nome_cliente = data.get("cliente", {}).get("nome")
+        if not nome_cliente:
+            return jsonify({"msg": "Nome do cliente obrigatório"}), 400
+        novo_cliente = Cliente(nome=nome_cliente)
+        db.session.add(novo_cliente)
+        db.session.commit()
+        id_cliente = novo_cliente.id_cliente
+
+    # 2️⃣ Criar pedido
     novo_pedido = Pedido(
-        id_cliente=data["id_cliente"],
-        status=data.get("status", "pendente")
+        id_cliente=id_cliente,
+        data_hora=datetime.now(),
+        status="pendente"
     )
     db.session.add(novo_pedido)
     db.session.commit()
-    return jsonify({"msg": "Pedido criado", "id_pedido": novo_pedido.id_pedido}), 201
+
+    # 3️⃣ Adicionar itens ao pedido
+    for i in data.get("itens", []):
+        # Determinar o preço do item
+        preco_unitario = 0
+        if i.get("id_produto"):
+            produto = Produto.query.get(i["id_produto"])
+            if produto:
+                preco_unitario = float(produto.preco)
+        elif i.get("id_combo"):
+            combo = Combo.query.get(i["id_combo"])
+            if combo:
+                preco_unitario = float(combo.preco)
+
+        item = ItemPedido(
+            id_pedido=novo_pedido.id_pedido,
+            id_produto=i.get("id_produto"),
+            id_combo=i.get("id_combo"),
+            quantidade=i.get("quantidade", 1),
+            preco_unitario=preco_unitario
+        )
+        db.session.add(item)
+
+    db.session.commit()
+    return jsonify({
+        "msg": "Pedido criado",
+        "id_pedido": novo_pedido.id_pedido,
+        "id_cliente": id_cliente
+    })
+
 
 # Listar pedidos
-@pedidos_bp.route("", methods=["GET"])
+@pedidos_bp.route("/", methods=["GET"])
 def listar_pedidos():
     pedidos = Pedido.query.all()
     resultado = []

@@ -4,7 +4,7 @@ from models import db, Produto, ProdutoIngrediente, Ingrediente
 produtos_bp = Blueprint("produtos", __name__, url_prefix="/produtos")
 
 # Criar produto
-@produtos_bp.route("", methods=["POST"])
+@produtos_bp.route("/", methods=["POST"])
 def criar_produto():
     data = request.json
     nome = data.get("nome")
@@ -19,7 +19,7 @@ def criar_produto():
     return jsonify({"msg": "Produto criado", "id": produto.id_produto}), 201
 
 # Listar produtos
-@produtos_bp.route("", methods=["GET"])
+@produtos_bp.route("/", methods=["GET"])
 def listar_produtos():
     produtos = Produto.query.all()
     resultado = []
@@ -28,7 +28,7 @@ def listar_produtos():
             "id": p.id_produto,
             "nome": p.nome,
             "descricao": p.descricao,
-            "preco": str(p.preco)
+            "preco": float(p.preco)
         })
     return jsonify(resultado)
 
@@ -42,7 +42,7 @@ def obter_produto(id_produto):
         "id": produto.id_produto,
         "nome": produto.nome,
         "descricao": produto.descricao,
-        "preco": str(produto.preco)
+        "preco": float(produto.preco)
     })
 
 # Atualizar produto

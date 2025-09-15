@@ -8,3 +8,11 @@ venv/
 
 # VSCode
 .vscode/
+
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+dist/
+.vite/
+out/

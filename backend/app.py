@@ -1,8 +1,14 @@
 import time
 import psycopg2
-from flask import Flask
+from flask import Flask, render_template
 from models import db
+
 from blueprints.produtos import produtos_bp
+from blueprints.combos import combos_bp
+from blueprints.clientes import clientes_bp
+from blueprints.ingredientes import ingredientes_bp
+from blueprints.itens_pedido import itens_pedido_bp
+from blueprints.pedidos import pedidos_bp
 
 # Aguarda o banco ficar pronto
 while True:
@@ -20,7 +26,7 @@ while True:
         time.sleep(2)
 
 # Inicia Flask
-app = Flask(__name__)
+app = Flask(__name__, template_folder="frontend/templates", static_folder="frontend/static")
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres:postgres@db:5432/fastfood"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -32,7 +38,11 @@ with app.app_context():
 
 # Registra blueprint
 app.register_blueprint(produtos_bp)
-
+app.register_blueprint(combos_bp)
+app.register_blueprint(clientes_bp)
+app.register_blueprint(ingredientes_bp)
+app.register_blueprint(itens_pedido_bp)
+app.register_blueprint(pedidos_bp)
 @app.route("/")
 def index():
-    return "Backend funcionando! ver 0.0.1"
+    return "API ON"
